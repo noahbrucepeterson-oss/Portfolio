@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finance Quiz — Noah</title>
+  <style>
+    :root {
+      --navy: #1a2e4a;
+      --gold: #c9a84c;
+      --gold-light: #f0c96e;
+      --bg: #0f1923;
+      --card: #162030;
+      --card2: #1d2d42;
+      --text: #e8e8e8;
+      --muted: #7a9ab5;
+      --correct: #22c55e;
+      --wrong: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Nav */
+    .top-nav {
+      background: var(--navy);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--gold);
+    }
+    .top-nav a {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .top-nav .brand {
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* Main layout */
+    .app-container {
+      flex: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 30px 16px 60px;
+    }
+
+    .app-title {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .app-title h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: -0.5px;
+    }
+    .app-title p {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-top: 6px;
+    }
+
+    /* Config panel */
+    .config-panel {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid rgba(201,168,76,0.2);
+      margin-bottom: 24px;
+    }
+    .config-panel h2 {
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+    }
+    .config-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .config-btn {
+      background: var(--card2);
+      border: 2px solid transparent;
+      color: var(--muted);
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.15s;
+    }
+    .config-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.1);
+    }
+    .config-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Start button */
+    .start-btn {
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.5px;
+    }
+    .start-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .start-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Score bar */
+    .score-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      border-radius: 10px;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(201,168,76,0.15);
+    }
+    .score-item { text-align: center; }
+    .score-num { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
+    .score-label { font-size: 0.7rem; text-transform: uppercase; color: var(--muted); letter-spacing: 1px; }
+
+    /* Question card */
+    .question-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid rgba(201,168,76,0.2);
+      margin-bottom: 20px;
+    }
+    .q-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .q-number {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+    .q-category {
+      background: rgba(201,168,76,0.15);
+      color: var(--gold);
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .q-difficulty {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .diff-easy { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .diff-medium { background: rgba(234,179,8,0.15); color: #eab308; }
+    .diff-hard { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+    .q-text {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 500px) { .options-grid { grid-template-columns: 1fr; } }
+
+    .option-btn {
+      background: var(--card2);
+      border: 2px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      text-align: left;
+      transition: all 0.15s;
+      line-height: 1.4;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+    .option-btn.correct {
+      border-color: var(--correct);
+      background: rgba(34,197,94,0.12);
+      color: #86efac;
+    }
+    .option-btn.wrong {
+      border-color: var(--wrong);
+      background: rgba(239,68,68,0.12);
+      color: #fca5a5;
+    }
+    .option-btn:disabled { cursor: default; }
+
+    /* Explanation box */
+    .explanation {
+      background: rgba(201,168,76,0.08);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 10px 10px 0;
+      padding: 16px;
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: #c8d8e8;
+      line-height: 1.6;
+      display: none;
+    }
+    .explanation.show { display: block; }
+    .explanation strong { color: var(--gold); }
+
+    /* Next button */
+    .next-btn {
+      width: 100%;
+      background: var(--navy);
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: none;
+      margin-top: 12px;
+    }
+    .next-btn.show { display: block; }
+    .next-btn:hover { background: var(--gold); color: #000; }
+
+    /* Results */
+    .results-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 40px 28px;
+      text-align: center;
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+    .results-score {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .results-label { color: var(--muted); margin: 8px 0 24px; font-size: 1rem; }
+    .results-grade {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .results-breakdown {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .rb-item { text-align: center; }
+    .rb-num { font-size: 2rem; font-weight: 800; }
+    .rb-num.green { color: var(--correct); }
+    .rb-num.red { color: var(--wrong); }
+    .rb-lbl { font-size: 0.75rem; text-transform: uppercase; color: var(--muted); letter-spacing: 1px; }
+
+    .restart-btn {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .restart-btn:hover { background: var(--gold-light); }
+
+    /* Loading */
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 4px solid rgba(201,168,76,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* States */
+    .hidden { display: none !important; }
+
+    .progress-bar-wrap {
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      height: 6px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="scratch.html">← Sports Page</a>
+  <span class="brand">💰 Finance Quiz</span>
+  <a href="index.html">Professional Site →</a>
+</nav>
+
+<div class="app-container">
+  <div class="app-title">
+    <h1>Finance Trivia</h1>
+    <p>Test your knowledge of finance, accounting &amp; investing</p>
+  </div>
+
+  <!-- CONFIG SCREEN -->
+  <div id="configScreen">
+    <div class="config-panel">
+      <h2>Choose Difficulty</h2>
+      <div class="config-row">
+        <button class="config-btn active" data-group="difficulty" data-val="easy">🟢 Easy</button>
+        <button class="config-btn" data-group="difficulty" data-val="medium">🟡 Medium</button>
+        <button class="config-btn" data-group="difficulty" data-val="hard">🔴 Hard</button>
+        <button class="config-btn" data-group="difficulty" data-val="mixed">🎲 Mixed</button>
+      </div>
+    </div>
+    <div class="config-panel">
+      <h2>Choose Topic</h2>
+      <div class="config-row">
+        <button class="config-btn active" data-group="topic" data-val="general">📊 General Finance</button>
+        <button class="config-btn" data-group="topic" data-val="accounting">📒 Accounting</button>
+        <button class="config-btn" data-group="topic" data-val="investing">📈 Investing</button>
+        <button class="config-btn" data-group="topic" data-val="markets">🏦 Markets</button>
+      </div>
+    </div>
+    <div class="config-panel">
+      <h2>Number of Questions</h2>
+      <div class="config-row">
+        <button class="config-btn" data-group="count" data-val="5">5 Qs</button>
+        <button class="config-btn active" data-group="count" data-val="10">10 Qs</button>
+        <button class="config-btn" data-group="count" data-val="15">15 Qs</button>
+      </div>
+    </div>
+    <button class="start-btn" id="startBtn" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loadingScreen" class="loading-state hidden">
+    <div class="spinner"></div>
+    <p id="loadingMsg">Generating your quiz questions...</p>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quizScreen" class="hidden">
+    <div class="score-bar">
+      <div class="score-item">
+        <div class="score-num" id="scoreDisplay">0</div>
+        <div class="score-label">Score</div>
+      </div>
+      <div class="score-item">
+        <div class="score-num" id="qNumDisplay">1</div>
+        <div class="score-label">Question</div>
+      </div>
+      <div class="score-item">
+        <div class="score-num" id="qTotalDisplay">10</div>
+        <div class="score-label">Total</div>
+      </div>
+      <div class="score-item">
+        <div class="score-num" id="streakDisplay">0🔥</div>
+        <div class="score-label">Streak</div>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-meta">
+        <span class="q-number" id="qNumberLabel">Question 1 of 10</span>
+        <div style="display:flex;gap:8px;">
+          <span class="q-category" id="qCategory">Finance</span>
+          <span class="q-difficulty" id="qDifficulty">Easy</span>
+        </div>
+      </div>
+      <p class="q-text" id="qText">Loading question...</p>
+      <div class="options-grid" id="optionsGrid"></div>
+      <div class="explanation" id="explanation"></div>
+    </div>
+
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsScreen" class="hidden">
+    <div class="results-card">
+      <div class="results-score" id="finalScore">0/10</div>
+      <div class="results-label">Final Score</div>
+      <div class="results-grade" id="finalGrade">Keep studying! 📚</div>
+      <div class="results-breakdown">
+        <div class="rb-item">
+          <div class="rb-num green" id="correctCount">0</div>
+          <div class="rb-lbl">Correct</div>
+        </div>
+        <div class="rb-item">
+          <div class="rb-num red" id="wrongCount">0</div>
+          <div class="rb-lbl">Wrong</div>
+        </div>
+        <div class="rb-item">
+          <div class="rb-num" id="pctScore" style="color:var(--gold);">0%</div>
+          <div class="rb-lbl">Accuracy</div>
+        </div>
+      </div>
+      <button class="restart-btn" onclick="restartQuiz()">Play Again 🔄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── State ──
+  let settings = { difficulty: 'easy', topic: 'general', count: 10 };
+  let questions = [];
+  let currentQ = 0;
+  let score = 0;
+  let streak = 0;
+  let answered = false;
+
+  // ── Config buttons ──
+  document.querySelectorAll('.config-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.group;
+      document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      settings[group] = btn.dataset.val;
+    });
+  });
+
+  // ── Start quiz ──
+  async function startQuiz() {
+    document.getElementById('configScreen').classList.add('hidden');
+    document.getElementById('loadingScreen').classList.remove('hidden');
+
+    const msgs = [
+      'Generating your quiz questions...',
+      'Crafting tricky finance problems...',
+      'Consulting the balance sheet...',
+      'Crunching the numbers...'
+    ];
+    let mi = 0;
+    const loadInterval = setInterval(() => {
+      document.getElementById('loadingMsg').textContent = msgs[mi % msgs.length];
+      mi++;
+    }, 1800);
+
+    try {
+      questions = await fetchQuestions();
+      clearInterval(loadInterval);
+      document.getElementById('loadingScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+      document.getElementById('qTotalDisplay').textContent = questions.length;
+      renderQuestion();
+    } catch (err) {
+      clearInterval(loadInterval);
+      document.getElementById('loadingMsg').textContent = '⚠️ Error loading questions. Please try again.';
+      console.error(err);
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hidden');
+        document.getElementById('configScreen').classList.remove('hidden');
+      }, 2500);
+    }
+  }
+
+  async function fetchQuestions() {
+    const topicMap = {
+      general: 'general finance concepts, financial ratios, time value of money, and financial statements',
+      accounting: 'accounting principles, debits and credits, GAAP, financial statements, and bookkeeping',
+      investing: 'stocks, bonds, portfolio theory, valuation methods, and investment strategies',
+      markets: 'capital markets, monetary policy, interest rates, and macroeconomic indicators'
+    };
+
+    const diffMap = {
+      easy: 'easy (basic concepts, definitions)',
+      medium: 'medium (application and analysis)',
+      hard: 'hard (advanced calculations and synthesis)',
+      mixed: 'mixed difficulty (a blend of easy, medium, and hard)'
+    };
+
+    const prompt = `Generate exactly ${settings.count} multiple-choice finance trivia questions about ${topicMap[settings.topic]}.
+Difficulty level: ${diffMap[settings.difficulty]}.
+
+Return ONLY valid JSON (no markdown, no backticks, no preamble) in this exact format:
+[
+  {
+    "question": "Question text here?",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correct": 0,
+    "explanation": "Brief explanation of why this answer is correct.",
+    "category": "Short category label",
+    "difficulty": "Easy"
+  }
+]
+
+Rules:
+- "correct" is the 0-based index of the correct option in the "options" array
+- All 4 options must be plausible
+- Questions should be clear and unambiguous
+- Explanations should be 1-2 sentences, educational
+- Category should be 1-3 words
+- Difficulty should be "Easy", "Medium", or "Hard"
+- Generate exactly ${settings.count} questions`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!response.ok) throw new Error('API error: ' + response.status);
+    const data = await response.json();
+    const text = data.content.map(c => c.text || '').join('').trim();
+    const clean = text.replace(/```json|```/g, '').trim();
+    return JSON.parse(clean);
+  }
+
+  // ── Render question ──
+  function renderQuestion() {
+    const q = questions[currentQ];
+    answered = false;
+
+    // Update meta
+    document.getElementById('qNumberLabel').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+    document.getElementById('qNumDisplay').textContent = currentQ + 1;
+    document.getElementById('qCategory').textContent = q.category || 'Finance';
+
+    const diffEl = document.getElementById('qDifficulty');
+    diffEl.textContent = q.difficulty || 'Medium';
+    diffEl.className = 'q-difficulty';
+    const d = (q.difficulty || '').toLowerCase();
+    if (d === 'easy') diffEl.classList.add('diff-easy');
+    else if (d === 'hard') diffEl.classList.add('diff-hard');
+    else diffEl.classList.add('diff-medium');
+
+    document.getElementById('qText').textContent = q.question;
+
+    // Progress bar
+    const pct = (currentQ / questions.length) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+
+    // Options
+    const grid = document.getElementById('optionsGrid');
+    grid.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = opt;
+      btn.onclick = () => selectAnswer(i);
+      grid.appendChild(btn);
+    });
+
+    // Hide explanation + next
+    const exp = document.getElementById('explanation');
+    exp.classList.remove('show');
+    document.getElementById('nextBtn').classList.remove('show');
+  }
+
+  function selectAnswer(index) {
+    if (answered) return;
+    answered = true;
+
+    const q = questions[currentQ];
+    const btns = document.querySelectorAll('.option-btn');
+
+    btns.forEach(b => b.disabled = true);
+
+    if (index === q.correct) {
+      btns[index].classList.add('correct');
+      score++;
+      streak++;
+    } else {
+      btns[index].classList.add('wrong');
+      btns[q.correct].classList.add('correct');
+      streak = 0;
+    }
+
+    // Update displays
+    document.getElementById('scoreDisplay').textContent = score;
+    document.getElementById('streakDisplay').textContent = streak + (streak >= 3 ? '🔥' : '');
+
+    // Show explanation
+    const exp = document.getElementById('explanation');
+    exp.innerHTML = `<strong>${index === q.correct ? '✅ Correct!' : '❌ Incorrect.'}</strong> ${q.explanation}`;
+    exp.classList.add('show');
+
+    // Show next or finish
+    const nextBtn = document.getElementById('nextBtn');
+    nextBtn.classList.add('show');
+    if (currentQ === questions.length - 1) {
+      nextBtn.textContent = 'See Results 🏆';
+    } else {
+      nextBtn.textContent = 'Next Question →';
+    }
+  }
+
+  function nextQuestion() {
+    currentQ++;
+    if (currentQ >= questions.length) {
+      showResults();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  function showResults() {
+    document.getElementById('quizScreen').classList.add('hidden');
+    document.getElementById('resultsScreen').classList.remove('hidden');
+
+    const total = questions.length;
+    const pct = Math.round((score / total) * 100);
+
+    document.getElementById('finalScore').textContent = `${score}/${total}`;
+    document.getElementById('correctCount').textContent = score;
+    document.getElementById('wrongCount').textContent = total - score;
+    document.getElementById('pctScore').textContent = pct + '%';
+
+    let grade, gradeColor;
+    if (pct >= 90) { grade = 'Outstanding! 🏆 Finance genius!'; gradeColor = '#22c55e'; }
+    else if (pct >= 75) { grade = 'Great work! 📈 Strong finance knowledge.'; gradeColor = '#84cc16'; }
+    else if (pct >= 60) { grade = 'Good effort! 📊 Keep studying.'; gradeColor = '#eab308'; }
+    else if (pct >= 40) { grade = 'Keep practicing! 📚 You\'ll get there.'; gradeColor = '#f97316'; }
+    else { grade = 'Time to hit the books! 💪'; gradeColor = '#ef4444'; }
+
+    const gradeEl = document.getElementById('finalGrade');
+    gradeEl.textContent = grade;
+    gradeEl.style.color = gradeColor;
+
+    document.getElementById('progressBar').style.width = '100%';
+  }
+
+  function restartQuiz() {
+    questions = [];
+    currentQ = 0;
+    score = 0;
+    streak = 0;
+    answered = false;
+    document.getElementById('resultsScreen').classList.add('hidden');
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('scoreDisplay').textContent = '0';
+    document.getElementById('streakDisplay').textContent = '0';
+    document.getElementById('configScreen').classList.remove('hidden');
+  }
+</script>
+</body>
+</html>

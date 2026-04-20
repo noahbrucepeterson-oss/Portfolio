@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Noah's Sports World</title>
+  <link rel="stylesheet" href="style2.css"/>
+</head>
+<body>
+
+<!-- Navigation (back to professional pages) -->
+<nav id="top" class="scratch-nav">
+  <a href="index.html" class="nav-home">← Back to Professional Site</a>
+  <div class="nav-links">
+    <a href="#intro">Home</a>
+    <a href="#my-sports">My Sports</a>
+    <a href="#top-sports">Top Sports</a>
+    <a href="#video">Watch</a>
+    <a href="#data">Stats</a>
+    <a href="app.html" class="nav-app">Finance Quiz App</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header id="intro" class="scratch-hero">
+  <div class="hero-text">
+    <h1>Sports &amp; <span class="accent">Numbers</span></h1>
+    <p class="hero-sub">Where athletic passion meets analytical thinking.</p>
+    <a href="#my-sports" class="cta-btn">Explore ↓</a>
+  </div>
+</header>
+
+<!-- My Sports Section (ordered list with nested unordered list) -->
+<section id="my-sports" class="section light-section">
+  <div class="section-inner">
+    <h2>My Sports <span class="accent">World</span></h2>
+    <p class="section-intro">Sports have always been a big part of my life — here are my favorites, ranked by how much I follow them:</p>
+
+    <!-- REQUIREMENT: Ordered list with embedded unordered list -->
+    <ol class="sports-ranked">
+      <li>
+        <strong>Basketball</strong>
+        <ul class="sub-list">
+          <li>Favorite team: Utah Jazz</li>
+          <li>Favorite player: Donovan Mitchell</li>
+          <li>Love analyzing game statistics and player efficiency ratings</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Soccer / Football</strong>
+        <ul class="sub-list">
+          <li>Favorite club: FC Barcelona</li>
+          <li>Follow UEFA Champions League closely</li>
+          <li>Appreciate the global reach and economics of the sport</li>
+        </ul>
+      </li>
+      <li>
+        <strong>American Football</strong>
+        <ul class="sub-list">
+          <li>Favorite team: Dallas Cowboys</li>
+          <li>Enjoy the strategy and analytics behind play-calling</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Baseball</strong>
+        <ul class="sub-list">
+          <li>Fascinated by sabermetrics and WAR statistics</li>
+          <li>Follow the MLB trade deadline like a financial market</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- Top Sports Stats with image -->
+<section id="top-sports" class="section dark-section">
+  <div class="section-inner">
+    <h2>Sports <span class="accent">By the Numbers</span></h2>
+    <p class="section-intro">The intersection of sports and finance is bigger than most people realize.</p>
+
+    <div class="two-col">
+      <div class="col-text">
+        <div class="fact-card">
+          <span class="fact-num">$100B+</span>
+          <span class="fact-label">Global sports industry value</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-num">$5.1B</span>
+          <span class="fact-label">Average NFL franchise value (2024)</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-num">$6.6B</span>
+          <span class="fact-label">Dallas Cowboys valuation — most valuable team in the world</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-num">40M+</span>
+          <span class="fact-label">Daily fantasy sports participants in the U.S.</span>
+        </div>
+      </div>
+      <div class="col-img">
+        <!-- REQUIREMENT: Image not from Bootstrap theme -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/320px-Camponotus_flavomarginatus_ant.jpg"
+             alt="Sports stadium aerial"
+             class="section-img"
+             onerror="this.src='https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80'; this.onerror=null;"
+        />
+        <!-- Using a reliable Wikimedia image as fallback; replace with your own photo -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Basketball_through_hoop.jpg/320px-Basketball_through_hoop.jpg"
+             alt="Basketball going through hoop"
+             class="section-img"
+             style="margin-top:12px;"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- YouTube Video Embed -->
+<!-- REQUIREMENT: Embedded YouTube video -->
+<section id="video" class="section light-section">
+  <div class="section-inner">
+    <h2>Watch: Sports <span class="accent">Analytics</span> Explained</h2>
+    <p class="section-intro">How data and finance are transforming modern sports management.</p>
+    <div class="video-wrapper">
+      <!-- This uses a public YouTube video about sports analytics. Replace with your preferred video. -->
+      <iframe
+        width="100%"
+        height="450"
+        src="https://www.youtube.com/embed/MpLHMKTolVw"
+        title="Sports Analytics Explained"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- Tableau Embed -->
+<!-- REQUIREMENT: Live Tableau graph -->
+<section id="data" class="section dark-section">
+  <div class="section-inner">
+    <h2>Live Sports <span class="accent">Data Viz</span></h2>
+    <p class="section-intro">Interactive Tableau visualization — explore the data yourself.</p>
+    <div class="tableau-wrapper">
+      <div class='tableauPlaceholder' id='viz1' style='position:relative; width:100%;'>
+        <noscript>
+          <a href='#'>
+            <img alt='Sports Viz' src='https://public.tableau.com/static/images/Sp/SportsStats/Dashboard1/1_rss.png' style='border:none'/>
+          </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+          <param name='embed_code_version' value='3' />
+          <param name='site_root' value='' />
+          <param name='name' value='NBAPlayerStats2023-24/Dashboard1' />
+          <param name='tabs' value='no' />
+          <param name='toolbar' value='yes' />
+          <param name='animate_transition' value='yes' />
+          <param name='display_static_image' value='yes' />
+          <param name='display_spinner' value='yes' />
+          <param name='display_overlay' value='yes' />
+          <param name='display_count' value='yes' />
+          <param name='language' value='en-US' />
+        </object>
+      </div>
+      <script type='text/javascript'>
+        var divElement = document.getElementById('viz1');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width='100%';
+        vizElement.style.height='500px';
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+      </script>
+    </div>
+    <p class="tableau-note">If the visualization doesn't load, <a href="https://public.tableau.com/app/discover" target="_blank" class="accent-link">explore Tableau Public directly</a>.</p>
+  </div>
+</section>
+
+<!-- On-page anchor: back to top -->
+<!-- REQUIREMENT: On-page anchor -->
+<section class="section anchor-section">
+  <div class="section-inner text-center">
+    <p>You've reached the end of my sports page!</p>
+    <a href="#top" class="cta-btn">↑ Back to Top</a>
+    <a href="app.html" class="cta-btn cta-alt" style="margin-left:12px;">Try the Finance Quiz →</a>
+    <a href="index.html" class="cta-btn cta-alt" style="margin-left:12px;">← Professional Site</a>
+  </div>
+</section>
+
+<footer class="scratch-footer">
+  <p>Noah's Sports &amp; Finance World &mdash; Built from scratch for IS 201 &mdash; <a href="index.html">Professional Site</a></p>
+</footer>
+
+</body>
+</html>

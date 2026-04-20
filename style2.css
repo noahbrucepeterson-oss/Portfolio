@@ -1,0 +1,322 @@
+/* style2.css — Custom CSS for Sports Scratch Page */
+/* REQUIREMENT: At least 4 style definitions, font color, font family, 3+ divs for positioning */
+
+/* ── 1. Global / Reset ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* REQUIREMENT: font family */
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: #0d1117;   /* REQUIREMENT: custom background color */
+  color: #e0e0e0;
+  line-height: 1.7;
+}
+
+/* REQUIREMENT: font color */
+h1, h2, h3 {
+  font-family: 'Impact', 'Arial Narrow', sans-serif;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.accent {
+  color: #f5a623;   /* orange accent — sports energy */
+}
+
+.accent-link {
+  color: #f5a623;
+  text-decoration: underline;
+}
+
+/* ── 2. Navigation ── */
+/* REQUIREMENT: div for positioning (nav bar) */
+.scratch-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111827;
+  padding: 14px 30px;
+  border-bottom: 3px solid #f5a623;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.scratch-nav a {
+  color: #ccc;
+  text-decoration: none;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.scratch-nav a:hover { color: #f5a623; }
+
+.nav-home {
+  font-weight: bold;
+  color: #f5a623 !important;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.nav-app {
+  background: #f5a623;
+  color: #000 !important;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* ── 3. Hero ── */
+/* REQUIREMENT: custom background + div for positioning */
+.scratch-hero {
+  background: linear-gradient(135deg, #0d1117 0%, #1a2a0d 50%, #0d1117 100%);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(245,166,35,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(34,197,94,0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #0d1117 0%, #111827 100%);
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scratch-hero::before {
+  content: '⚽ 🏀 🏈 ⚾';
+  position: absolute;
+  top: 20px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  opacity: 0.15;
+  letter-spacing: 20px;
+}
+
+/* REQUIREMENT: div for positioning (hero text block) */
+.hero-text {
+  max-width: 700px;
+  z-index: 1;
+}
+
+.hero-text h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero-sub {
+  font-size: 1.3rem;
+  color: #aaa;
+  font-family: 'Georgia', serif;
+  margin-bottom: 30px;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: #f5a623;
+  color: #000;
+  padding: 12px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.cta-btn:hover { background: #e09010; transform: translateY(-2px); }
+
+.cta-alt {
+  background: transparent;
+  border: 2px solid #f5a623;
+  color: #f5a623;
+}
+
+.cta-alt:hover { background: #f5a623; color: #000; }
+
+/* ── 4. Sections ── */
+/* REQUIREMENT: div for positioning blocks of content */
+.section {
+  padding: 70px 20px;
+}
+
+.light-section {
+  background-color: #111827;
+}
+
+.dark-section {
+  background-color: #0d1117;
+}
+
+.anchor-section {
+  background: #111827;
+  text-align: center;
+  border-top: 2px solid #1f2937;
+}
+
+.section-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-inner h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin-bottom: 12px;
+}
+
+.section-intro {
+  color: #9ca3af;
+  font-size: 1.05rem;
+  margin-bottom: 30px;
+  font-family: 'Georgia', serif;
+}
+
+/* ── 5. Sports Ranked List ── */
+/* REQUIREMENT: ordered list with nested unordered list styles */
+.sports-ranked {
+  counter-reset: none;
+  padding-left: 0;
+  list-style: none;
+}
+
+.sports-ranked > li {
+  background: #1f2937;
+  border-left: 5px solid #f5a623;
+  padding: 15px 20px;
+  margin-bottom: 14px;
+  border-radius: 0 8px 8px 0;
+  counter-increment: my-counter;
+  position: relative;
+  padding-left: 55px;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.05rem;
+}
+
+.sports-ranked > li::before {
+  content: counter(my-counter, decimal);
+  counter-increment: none;
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f5a623;
+  font-family: 'Impact', sans-serif;
+}
+
+.sports-ranked {
+  counter-reset: my-counter;
+}
+
+.sub-list {
+  list-style: disc;
+  padding-left: 20px;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.sub-list li { margin-bottom: 4px; }
+
+/* ── 6. Two-column layout ── */
+.two-col {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.col-text { flex: 1; min-width: 200px; }
+.col-img { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 10px; }
+
+.fact-card {
+  background: #1f2937;
+  border-left: 4px solid #f5a623;
+  padding: 14px 18px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.fact-num {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #f5a623;
+  font-family: 'Impact', sans-serif;
+  line-height: 1.1;
+}
+
+.fact-label {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  font-family: 'Arial', sans-serif;
+  margin-top: 4px;
+}
+
+.section-img {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #2d3748;
+}
+
+/* ── 7. Video ── */
+.video-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid #1f2937;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+/* ── 8. Tableau ── */
+.tableau-wrapper {
+  background: #1f2937;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 10px;
+  border: 2px solid #374151;
+}
+
+.tableau-note {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-family: 'Arial', sans-serif;
+}
+
+/* ── 9. Footer ── */
+.scratch-footer {
+  background: #060a0f;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.85rem;
+  color: #4b5563;
+  font-family: 'Arial', sans-serif;
+  border-top: 2px solid #1f2937;
+}
+
+.scratch-footer a {
+  color: #f5a623;
+  text-decoration: none;
+}
+
+/* ── 10. Responsive ── */
+@media (max-width: 600px) {
+  .scratch-nav { flex-direction: column; align-items: flex-start; }
+  .nav-links { flex-direction: column; gap: 8px; }
+  .two-col { flex-direction: column; }
+}
